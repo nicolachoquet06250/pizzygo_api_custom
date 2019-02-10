@@ -1,6 +1,10 @@
 <?php
-	
-	class CommentEntity extends Entity {
+namespace custom;
+
+use core\Entity;
+
+
+class CommentEntity extends Entity {
 		/**
 		 * @var int $id
 		 * @not_null

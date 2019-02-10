@@ -1,2 +1,6 @@
 <?php
-	class ShopDao extends Repository {}
+namespace custom;
+
+use core\Repository;
+
+class ShopDao extends Repository {}

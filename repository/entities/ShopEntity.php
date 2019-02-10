@@ -1,6 +1,11 @@
 <?php
-	
-	class ShopEntity extends Entity {
+namespace custom;
+
+use core\Entity;
+use Exception;
+
+
+class ShopEntity extends Entity {
 		/**
 		 * @var int $id
 		 * @not_null

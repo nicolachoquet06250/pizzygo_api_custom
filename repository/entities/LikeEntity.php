@@ -1,6 +1,10 @@
 <?php
-	
-	class LikeEntity extends Entity {
+namespace custom;
+
+use core\Entity;
+
+
+class LikeEntity extends Entity {
 		/**
 		 * @var int $id
 		 * @not_null

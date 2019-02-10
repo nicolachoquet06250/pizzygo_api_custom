@@ -1,6 +1,10 @@
 <?php
-	
-	class CredentialsEntity extends Entity {
+namespace custom;
+
+use core\Entity;
+
+
+class CredentialsEntity extends Entity {
 		/**
 		 * @var int $id
 		 * @not_null

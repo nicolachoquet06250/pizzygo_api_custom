@@ -1,3 +1,6 @@
 <?php
+namespace custom;
 
-	class ShopModel extends BaseModel {}
+use core\BaseModel;
+
+class ShopModel extends BaseModel {}

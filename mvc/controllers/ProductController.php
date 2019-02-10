@@ -1,6 +1,13 @@
 <?php
-		
-	class ProductController extends Controller {
+namespace custom;
+
+use core\Controller;
+use core\ErrorController;
+use core\JsonResponse;
+use core\Response;
+use Exception;
+
+class ProductController extends Controller {
 
 		/** @var ProductDao $product_dao */
 		public $product_dao;

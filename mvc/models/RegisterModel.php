@@ -1,6 +1,10 @@
 <?php
+namespace custom;
 
-class RegisterModel extends Model {
+use core\BaseModel;
+use Exception;
+
+class RegisterModel extends BaseModel {
 	/**
 	 * @param array $user_infos
 	 * @return array|UserEntity

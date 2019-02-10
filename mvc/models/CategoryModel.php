@@ -1,6 +1,11 @@
 <?php
+namespace custom;
 
-	class CategoryModel extends BaseModel {
+use core\Base;
+use core\BaseModel;
+use Exception;
+
+class CategoryModel extends BaseModel {
 
 		/**
 		 * @param Product_categoryDao $dao

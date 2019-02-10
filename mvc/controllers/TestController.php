@@ -1,4 +1,9 @@
 <?php
+namespace custom;
+
+use core\Controller;
+use core\Response;
+use Exception;
 
 class TestController extends Controller {
 

@@ -1,2 +1,6 @@
 <?php
-	class CommentDao extends Repository {}
+namespace custom;
+
+use core\Repository;
+
+class CommentDao extends Repository {}

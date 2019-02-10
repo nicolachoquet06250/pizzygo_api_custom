@@ -1,4 +1,10 @@
 <?php
+namespace custom;
+
+use core\BaseModel;
+use core\HttpService;
+use core\SessionService;
+use Exception;
 
 class LoginModel extends BaseModel {
 	/** @var SessionService $session_service */

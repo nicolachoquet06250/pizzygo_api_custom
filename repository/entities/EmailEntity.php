@@ -1,4 +1,8 @@
 <?php
+namespace custom;
+
+use core\Entity;
+
 
 class EmailEntity extends Entity {
 	/**

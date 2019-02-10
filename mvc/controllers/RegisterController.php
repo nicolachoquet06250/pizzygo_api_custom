@@ -1,5 +1,12 @@
 <?php
 
+namespace custom;
+
+use core\Controller;
+use core\JsonResponse;
+use core\Response;
+use Exception;
+
 class RegisterController extends Controller {
 	/** @var RegisterModel $model */
 	public $model;

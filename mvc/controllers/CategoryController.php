@@ -1,6 +1,13 @@
 <?php
-		
-	class CategoryController extends Controller {
+namespace custom;
+
+use core\Controller;
+use core\ErrorController;
+use core\JsonResponse;
+use core\Response;
+use Exception;
+
+class CategoryController extends Controller {
 
 		/** @var CategoryModel $model */
 		public $model;

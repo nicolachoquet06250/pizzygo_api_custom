@@ -1,4 +1,9 @@
 <?php
+namespace custom;
+
+use core\Entity;
+use Exception;
+
 
 class Product_categoryEntity extends Entity {
 	/**

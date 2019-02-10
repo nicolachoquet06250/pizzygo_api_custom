@@ -1,5 +1,14 @@
 <?php
 
+namespace custom;
+
+use core\Controller;
+use core\ErrorController;
+use core\JsonResponse;
+use core\Response;
+use Exception;
+use JsonService;
+
 class HomeController extends Controller {
 
 	/**

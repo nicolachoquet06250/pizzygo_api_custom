@@ -1,4 +1,8 @@
 <?php
+namespace custom;
+
+use core\Repository;
+
 
 /**
  * Class OrderDao

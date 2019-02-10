@@ -1,6 +1,13 @@
 <?php
-		
-	class ShopController extends Controller {
+namespace custom;
+
+use core\Controller;
+use core\ErrorController;
+use core\Response;
+use core\SessionService;
+use Exception;
+
+class ShopController extends Controller {
 		/** @var SessionService $session_service */
 		public $session_service;
 

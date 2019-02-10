@@ -1,5 +1,17 @@
 <?php
 
+namespace custom;
+
+use core\Controller;
+use core\EmailService;
+use core\ErrorController;
+use core\JsonResponse;
+use core\Micro_templatingService;
+use core\Response;
+use core\SessionService;
+use core\TokenService;
+use Exception;
+
 class LoginController extends Controller {
 
 	/** @var SessionService $session_service */
