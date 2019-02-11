@@ -54,11 +54,11 @@ class LoginController extends Controller {
 						);
 					}
 				}
-				return $this->get_response($user);
+				return $this->OK($user);
 			}
-			return $this->get_error_controller(403)->message('you must fill in your email and your password');
+			return $this->FORBIDDEN('you must fill in your email and your password');
 		}
-		return $this->get_error_controller(501)->message('You are already login');
+		return $this->OK('You are already login');
 	}
 
 	/**
@@ -147,10 +147,10 @@ class LoginController extends Controller {
 				$user = $user[0];
 			}
 			else {
-				return $this->get_error_controller(404)->message('No users found');
+				return $this->PAGE_NOT_FOUND('No users found');
 			}
 			return $this->get_response($user);
 		}
-		return $this->get_error_controller(503)->message('parameter is required');
+		return $this->SERVER_ERROR('parameter is required');
 	}
 }

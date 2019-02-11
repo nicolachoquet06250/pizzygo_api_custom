@@ -25,7 +25,7 @@ class ProductController extends Controller {
 			elseif ($this->get('shop_id')) {
 				return $this->for_shop($product_categoryDao);
 			}
-			return $this->get_error_controller(503)->message('parameter category_id is required');
+			return $this->SERVER_ERROR('parameter category_id is required');
 		}
 
 		/**
@@ -35,7 +35,7 @@ class ProductController extends Controller {
 		 */
 		public function for_category(): JsonResponse {
 			if(!$this->get('category_id')) {
-				return $this->get_error_controller(503)->message('parameter category_id is required');
+				return $this->SERVER_ERROR('parameter category_id is required');
 			}
 			$products = $this->product_dao->getBy('category_id', (int)$this->get('category_id'));
 			if(!$products) {
@@ -51,7 +51,7 @@ class ProductController extends Controller {
 		 */
 		public function for_shop(Product_categoryDao $categoryDao): JsonResponse {
 			if(!$this->get('shop_id')) {
-				return $this->get_error_controller(503)->message('parameter shop_id is required');
+				return $this->SERVER_ERROR('parameter shop_id is required');
 			}
 			/** @var Product_categoryEntity[]|bool $categories */
 			$categories = $categoryDao->getBy('shop_id', $this->get('shop_id'));

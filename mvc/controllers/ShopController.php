@@ -34,12 +34,12 @@ class ShopController extends Controller {
 		 */
 		public function getAll() {
 			if(!$this->session_service->has_key('user')) {
-				return $this->get_error_controller(403)->message('You are not logged');
+				return $this->FORBIDDEN('You are not logged');
 			}
 			/** @var ShopEntity[]|bool $shops */
 			$shops = $this->shop_dao->getBy('user_id', $this->session_service->get('user')['id']);
 			if(!$shops) {
-				return $this->get_error_controller(404)->message('You have not shops');
+				return $this->PAGE_NOT_FOUND('You have not shops');
 			}
 			return $this->get_response($shops);
 		}
@@ -51,12 +51,12 @@ class ShopController extends Controller {
 		 */
 		public function getById() {
 			if(!$this->session_service->has_key('user')) {
-				return $this->get_error_controller(403)->message('You are not logged');
+				return $this->FORBIDDEN('You are not logged');
 			}
 			/** @var ShopEntity[]|bool $shops */
 			$shop = $this->shop_dao->getById($this->get('id'));
 			if(!$shop) {
-				return $this->get_error_controller(404)->message('Shop with id '.$this->get('id').' not found');
+				return $this->PAGE_NOT_FOUND('Shop with id '.$this->get('id').' not found');
 			}
 			return $this->get_response($shop[0]);
 		}
@@ -74,7 +74,7 @@ class ShopController extends Controller {
 		 */
 		public function addShop(ShopEntity $shop_entity) {
 			if(!$this->post('user_id') || !$this->post('name') || !$this->post('description')) {
-				return $this->get_error_controller(403)->message('parameters user_id, name and description are required');
+				return $this->SERVER_ERROR('parameters user_id, name and description are required');
 			}
 			$shop = $this->shop_dao->create(function () use (&$shop_entity) {
 				$shop_entity->initFromArray(

@@ -5,9 +5,9 @@ namespace custom;
 use core\Controller;
 use core\ErrorController;
 use core\JsonResponse;
+use core\JsonService;
 use core\Response;
 use Exception;
-use JsonService;
 
 class HomeController extends Controller {
 
@@ -44,8 +44,7 @@ class HomeController extends Controller {
 	 */
 	public function addresses(JsonService $json_service): JsonResponse {
 		if(!$this->get('address')) {
-			return $this->get_error_controller(404)
-						->message('Vous devez entrer votre address');
+			return $this->PAGE_NOT_FOUND('Vous devez entrer votre address');
 		}
 		$url_request = 'https://api-adresse.data.gouv.fr/search/?q='.str_replace(' ', '+', $this->get('address'));
 		if($this->get('limit')) {

@@ -42,7 +42,7 @@ class OrderController extends Controller {
 				$connected_user = $connected_user[0];
 			}
 			if(!$connected_user) {
-				return $this->get_error_controller(403)->message('You are not logged');
+				return $this->NOT_AUTHENTICATED_USER('You are not logged');
 			}
 			else {
 				/** @var ShopEntity|bool $shop */
@@ -87,7 +87,7 @@ class OrderController extends Controller {
 		 */
 		public function for_customer(): JsonResponse {
 			if(!$this->get('customer') && $this->get('shop')) {
-				return $this->get_error_controller(404)->message('The customer_id and shop_id are required');
+				return $this->PAGE_NOT_FOUND('The customer_id and shop_id are required');
 			}
 			$orders = $this->order_dao->getByUser_idAndShop_id((int)$this->get('customer'), (int)$this->get('shop'));
 			if(!$orders) {
@@ -104,8 +104,7 @@ class OrderController extends Controller {
 		 */
 		public function for_vendor() {
 			if(!$this->session_service->has_key('user')) {
-				return $this->get_error_controller(503)
-							->message('Vous n\'êtes pas connécté !!');
+				return $this->NOT_AUTHENTICATED_USER('You are not logged');
 			}
 			$id = (int)$this->session_service->get('user')['id'];
 			/** @var UserEntity $user */
@@ -123,9 +122,8 @@ class OrderController extends Controller {
 				foreach ($orders as $i => $order) {
 					$orders[$i] = $order->toArrayForJson();
 				}
-				return $this->get_response($orders);
+				return $this->OK($orders);
 			}
-			return $this->get_error_controller(503)
-						->message('Vous n\'avez pas les droits nécéssaires pour accéder à cet url !!');
+			return $this->FORBIDDEN('Vous n\'avez pas les droits nécéssaires pour accéder à cet url !!');
 		}
 	}
