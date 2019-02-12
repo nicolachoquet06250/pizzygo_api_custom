@@ -8,6 +8,6 @@ use core\DbContext;
 class PizzygoContext extends DbContext {
 	/** @var UserDao $users */
 	public $users;
-	/** @var OrderDao */
+	/** @var OrderDao $orders */
 	public $orders;
 }
