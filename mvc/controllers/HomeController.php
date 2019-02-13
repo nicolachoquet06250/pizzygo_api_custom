@@ -2,12 +2,17 @@
 
 namespace custom;
 
+use core\AuthenticationKeys;
 use core\Controller;
 use core\ErrorController;
 use core\JsonResponse;
 use core\JsonService;
 use core\Response;
 use Exception;
+use ReallySimpleJWT\Build;
+use ReallySimpleJWT\Encode;
+use ReallySimpleJWT\Token;
+use ReallySimpleJWT\Validate;
 
 class HomeController extends Controller {
 
@@ -60,5 +65,48 @@ class HomeController extends Controller {
 			unset($result[1]);
 		}
 		return $this->get_response($result);
+	}
+
+	/**
+	 * @return Response
+	 * @throws Exception
+	 */
+	public function test_auth(MysqlConf $mysqlConf) {
+		$auth_keys = AuthenticationKeys::create();
+		$private = $auth_keys->get_actual_private_key();
+		$public = $auth_keys->get_actual_public_key();
+
+		$userId = 12;
+		$secret = $private;
+		$expiration = time() + 3600;
+		$issuer = 'www.pizzygo.local';
+
+		$token = Token::create($userId, $secret, $expiration, $issuer);
+
+		$result = Token::validate($token, $private);
+
+		$builder = new Build('JWT', new Validate(), new Encode());
+		$token2 = $builder->setContentType('JWT')
+				  ->setHeaderClaim('info', 'foo')
+				  ->setSecret($private)
+				  ->setIssuer('www.pizzygo.local')
+				  ->setSubject('admins')
+				  ->setAudience('www.pizzygo.local')
+				  ->setExpiration(time() + 30)
+				  ->setNotBefore(time() - 30)
+				  ->setIssuedAt(time())
+				  ->setJwtId('123ABC')
+				  ->setPayloadClaim('uid', 12)
+				  ->build();
+
+		return $this->get_response(
+			[
+				'private_key' => $private,
+				'public_key' => $public,
+				'token' => $token,
+				'token2' => $token2,
+				'result' => $result,
+			]
+		);
 	}
 }

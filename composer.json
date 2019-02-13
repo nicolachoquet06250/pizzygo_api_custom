@@ -4,11 +4,5 @@
     "require": {
         "philo/laravel-blade": "3.*",
         "spipu/html2pdf": "5.2.1"
-    },
-    "authors": [
-        {
-            "name": "nicolas.choquet",
-            "email": "nicolachoquet06250@gmail.com"
-        }
-    ]
+    }
 }
