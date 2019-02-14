@@ -10,23 +10,22 @@ class DependenciesConf extends \core\DependenciesConf {
 			'repository' => 'https://github.com/RobDWaller/ReallySimpleJWT.git',
 			'autoloader' => false,
 			'autoloader_php' => '
-				function load_oauth2_module($directory) {
-				if(is_dir($directory) {
-					$dir = opendir($directory);
-						while(($elem = readdir($dir)) !== false) {
-							if($elem !== \'.\' && $elem !== \'..\') {
-								if(is_dir($directory.\'/\'.$elem) {
-									load_oauth2_module($directory.\'/\'.$elem);
-								}
-								elseif(is_file()) {
-									require_once $directory.\'/\'.$elem;
-								}
-							}
-						}
+	function load_oauth2_module($directory) {
+		if(is_dir($directory)) {
+			$dir = opendir($directory);
+			while(($elem = readdir($dir)) !== false) {
+				if($elem !== \'.\' && $elem !== \'..\') {
+					if(is_dir($directory.\'/\'.$elem)) {
+						load_oauth2_module($directory.\'/\'.$elem);
+					}
+					elseif(is_file($directory.\'/\'.$elem)) {
+						require_once $directory.\'/\'.$elem;
 					}
 				}
-				load_oauth2_module($dir = \''.__ROOT__.'/git_dependencies/oauth2/src\');
-			'
+			}
+		}
+	}
+	load_oauth2_module(\''.__ROOT__.'/git_dependencies/oauth2/src\');'
 		]
 //		'oauth2_server' => [
 //			'repository' => 'https://github.com/bshaffer/oauth2-server-php.git',
