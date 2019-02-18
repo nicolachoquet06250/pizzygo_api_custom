@@ -2,17 +2,14 @@
 
 namespace custom;
 
-use core\AuthenticationKeys;
+use core\AuthenticationService;
 use core\Controller;
 use core\ErrorController;
 use core\JsonResponse;
 use core\JsonService;
 use core\Response;
 use Exception;
-use ReallySimpleJWT\Build;
-use ReallySimpleJWT\Encode;
-use ReallySimpleJWT\Token;
-use ReallySimpleJWT\Validate;
+use MiladRahimi\Jwt\Enums\PublicClaimNames;
 
 class HomeController extends Controller {
 
@@ -71,42 +68,65 @@ class HomeController extends Controller {
 	 * @return Response
 	 * @throws Exception
 	 */
-	public function test_auth(MysqlConf $mysqlConf) {
-		$auth_keys = AuthenticationKeys::create();
-		$private = $auth_keys->get_actual_private_key();
-		$public = $auth_keys->get_actual_public_key();
+	public function test_auth(AuthenticationService $authenticationService) {
+		if(!is_null($this->get('disconnect'))) {
+			$authenticationService->disconnect($this->get_base_url().'/home/test_auth');
+		}
 
-		$userId = 12;
-		$secret = $private;
-		$expiration = time() + 3600;
-		$issuer = 'www.pizzygo.local';
+		if(!$authenticationService->authenticated()) {
+			if(!is_null($this->post('auth'))) {
+				$authenticationService->add_claim(PublicClaimNames::SUBJECT, 1)
+					 ->add_claim(PublicClaimNames::ID, 2);
+				if($authenticationService->authenticate()) {
+					return $this->get_response(
+						[
+							'referer' => $this->get_base_url().'/home/test_auth',
+						]
+					);
+				}
+			}
+			return $this->get_response('<head>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"
+			integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+			crossorigin="anonymous"></script>
+	<script>
+		$(window).ready(() => {
+		    $(\'#auth\').on(\'click\', () => {
+		    	$.ajax({
+		    		url: \''.$this->get_base_url().'/home/test_auth\',
+		    		method: \'post\',
+		    		data: {
+		    		    auth: true,
+		    		    debug: true
+		    		}
+		    	}).done(data => {
+		    	    window.location.href = data.referer;
+		    	});
+		    });
+		});
+	</script>
+</head>
+<input type="button" name="auth" id="auth" value="demander l\'authentification">', Response::HTML);
+		}
+		return $this->get_response('<input type="button" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth?disconnect=1\'" 
+												value="déconnection">
+<input type="button" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth2\'" value="page 2">', Response::HTML);
+	}
 
-		$token = Token::create($userId, $secret, $expiration, $issuer);
-
-		$result = Token::validate($token, $private);
-
-		$builder = new Build('JWT', new Validate(), new Encode());
-		$token2 = $builder->setContentType('JWT')
-				  ->setHeaderClaim('info', 'foo')
-				  ->setSecret($private)
-				  ->setIssuer('www.pizzygo.local')
-				  ->setSubject('admins')
-				  ->setAudience('www.pizzygo.local')
-				  ->setExpiration(time() + 30)
-				  ->setNotBefore(time() - 30)
-				  ->setIssuedAt(time())
-				  ->setJwtId('123ABC')
-				  ->setPayloadClaim('uid', 12)
-				  ->build();
-
-		return $this->get_response(
-			[
-				'private_key' => $private,
-				'public_key' => $public,
-				'token' => $token,
-				'token2' => $token2,
-				'result' => $result,
-			]
-		);
+	/**
+	 * @return Response
+	 * @throws Exception
+	 */
+	public function test_auth2(AuthenticationService $authenticationService) {
+		if(!is_null($this->get('disconnect'))) {
+			$authenticationService->disconnect($this->get_base_url().'/home/test_auth');
+		}
+		if(!$authenticationService->authenticated()) {
+			$authenticationService->redirect($this->get_base_url().'/home/test_auth');
+		}
+		var_dump($authenticationService->get_connected_user_id());
+		return $this->get_response('<input type="button" value="page 1" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth\'" /><input type="button" 
+													onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth?disconnect=1\'" 
+													value="déconnection" />', Response::HTML);
 	}
 }
