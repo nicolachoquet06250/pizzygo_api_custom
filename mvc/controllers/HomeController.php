@@ -5,6 +5,7 @@ namespace custom;
 use core\AuthenticationService;
 use core\Controller;
 use core\ErrorController;
+use core\Helpers;
 use core\JsonResponse;
 use core\JsonService;
 use core\Response;
@@ -124,9 +125,9 @@ class HomeController extends Controller {
 		if(!$authenticationService->authenticated()) {
 			$authenticationService->redirect($this->get_base_url().'/home/test_auth');
 		}
-		var_dump($authenticationService->get_connected_user_id());
-		return $this->get_response('<input type="button" value="page 1" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth\'" /><input type="button" 
-													onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth?disconnect=1\'" 
-													value="déconnection" />', Response::HTML);
+		return $this->get_response('<pre>'.Helpers::var_dump($authenticationService->get_connected_user_id()).'</pre>
+<input type="button" value="page 1" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth\'" />
+<input type="button" onclick="window.location.href=\''.$this->get_base_url().'/home/test_auth?disconnect=1\'" 
+	   value="déconnection" />', Response::HTML);
 	}
 }
