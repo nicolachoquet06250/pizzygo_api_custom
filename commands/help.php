@@ -7,8 +7,6 @@ use core\Command;
 use Exception;
 
 class help extends \core\help {
-
-
 	/**
 	 * @throws Exception
 	 */

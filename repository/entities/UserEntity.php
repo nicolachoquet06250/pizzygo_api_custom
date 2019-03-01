@@ -2,6 +2,7 @@
 namespace custom;
 
 use core\Entity;
+use Exception;
 
 
 class UserEntity extends Entity {
@@ -12,17 +13,24 @@ class UserEntity extends Entity {
 	 */
 	protected $id = 0;
 	/**
+	 * @var int $fb_id
+	 * @not_null
+	 * @size(11)
+	 * @JsonExclude
+	 */
+	protected $fb_id = 0;
+	/**
 	 * @var string $name
 	 * @not_null
 	 * @size(255)
 	 */
-	protected $name = '';
+	protected $first_name = '';
 	/**
 	 * @var string $surname
 	 * @not_null
 	 * @size(255)
 	 */
-	protected $surname = '';
+	protected $last_name = '';
 	/**
 	 * @var string $address
 	 * @not_null
@@ -89,6 +97,20 @@ class UserEntity extends Entity {
 	 * @size(255)
 	 */
 	protected $pseudo = '';
+	/**
+	 * @var string $fb_access_token
+	 * @not_null
+	 * @text
+	 * @JsonExclude
+	 */
+	protected $fb_access_token = '';
+	/**
+	 * @var string $local_access_token
+	 * @not_null
+	 * @text
+	 * @JsonExclude
+	 */
+	protected $local_access_token = '';
 
 	/**
 	 * @return bool
