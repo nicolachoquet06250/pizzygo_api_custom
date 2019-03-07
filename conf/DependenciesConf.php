@@ -1,9 +1,10 @@
 <?php
 namespace custom;
 
+use core\FactisSingleton;
+
 class DependenciesConf extends \core\DependenciesConf {
-	public $queues_plugin;
-	public $oauth2_server;
+	use FactisSingleton;
 	protected $conf = [
 		'queues_plugin' => 'https://github.com/nicolachoquet06250/mvc_framework_queues.git',
 		'jwt' 			=> [
